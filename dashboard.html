@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureURL Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --purple1:#4c1d95;
+    --purple2:#6d28d9;
+    --purple3:#9333ea;
+    --glass: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.15);
+    --text:#ffffff;
+    --green:#22c55e;
+    --yellow:#facc15;
+    --red:#ef4444;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 20% 30%, #7c3aed, transparent 40%),
+        radial-gradient(circle at 80% 70%, #9333ea, transparent 40%),
+        linear-gradient(135deg,var(--purple1),var(--purple2));
+    min-height:100vh;
+    display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:240px;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(20px);
+    border-right:1px solid var(--border);
+    padding:30px 20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:40px;
+}
+
+.nav-link{
+    padding:12px 15px;
+    border-radius:12px;
+    cursor:pointer;
+    margin-bottom:12px;
+    transition:0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active{
+    background:rgba(255,255,255,0.2);
+}
+
+/* MAIN CONTENT */
+
+.main{
+    flex:1;
+    overflow:hidden;
+}
+
+.wrapper{
+    display:flex;
+    width:400%;
+    transition:0.6s ease-in-out;
+}
+
+.section{
+    width:100vw;
+    min-height:100vh;
+    padding:60px 8%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* GLASS CARD */
+
+.glass{
+    background:var(--glass);
+    backdrop-filter:blur(25px);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:40px;
+    width:100%;
+    max-width:750px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
+}
+
+/* HERO */
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    opacity:0.85;
+    margin-bottom:25px;
+}
+
+.hero button{
+    padding:14px 30px;
+    border-radius:30px;
+    border:none;
+    font-weight:600;
+    background:linear-gradient(135deg,var(--purple2),var(--purple3));
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.hero button:hover{
+    transform:translateY(-3px);
+}
+
+/* INPUTS */
+
+input{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border-radius:15px;
+    border:none;
+    outline:none;
+    font-size:15px;
+}
+
+input:focus{
+    box-shadow:0 0 0 3px rgba(147,51,234,0.5);
+}
+
+.action-btn{
+    margin-top:20px;
+    padding:14px;
+    width:100%;
+    border-radius:15px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--purple2),var(--purple3));
+    color:white;
+    transition:0.3s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* RISK BAR */
+
+.risk-bar{
+    margin-top:20px;
+    height:14px;
+    background:rgba(255,255,255,0.2);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#riskFill{
+    height:100%;
+    width:0%;
+    transition:0.5s;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    body{flex-direction:column;}
+    .sidebar{
+        width:100%;
+        flex-direction:row;
+        justify-content:space-around;
+        padding:15px;
+    }
+    .main{
+        width:100%;
+    }
+    .section{
+        padding:30px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="logo">🛡 SecureURL</div>
+    <div class="nav-link active" onclick="slideTo(0,this)">🏠 Home</div>
+    <div class="nav-link" onclick="slideTo(1,this)">🔍 Analyzer</div>
+    <div class="nav-link" onclick="slideTo(2,this)">📚 Learn</div>
+    <div class="nav-link" onclick="slideTo(3,this)">🧪 Quiz</div>
+</div>
+
+<div class="main">
+<div class="wrapper" id="wrapper">
+
+<!-- HOME -->
+<section class="section">
+    <div class="glass hero">
+        <h1>SecureURL Pro</h1>
+        <p>Advanced phishing detection dashboard with modern cybersecurity interface.</p>
+        <button onclick="slideTo(1)">Start Scanning</button>
+    </div>
+</section>
+
+<!-- ANALYZER -->
+<section class="section">
+    <div class="glass">
+        <h2>🔍 URL Safety Analyzer</h2>
+        <input id="urlInput" placeholder="Enter URL (https://example.com)">
+        <button class="action-btn" onclick="analyze()">Analyze URL</button>
+        <div id="result" style="margin-top:20px;"></div>
+        <div class="risk-bar">
+            <div id="riskFill"></div>
+        </div>
+        <div id="reasons" style="margin-top:20px;"></div>
+    </div>
+</section>
+
+<!-- LEARN -->
+<section class="section">
+    <div class="glass">
+        <h2>📚 Learn URL Security</h2>
+        <ul style="margin-top:20px; line-height:28px;">
+            <li>Check HTTPS encryption</li>
+            <li>Avoid suspicious keywords</li>
+            <li>Beware of shortened links</li>
+            <li>Verify domain spelling</li>
+            <li>Never enter OTP on unknown sites</li>
+        </ul>
+    </div>
+</section>
+
+<!-- QUIZ -->
+<section class="section">
+    <div class="glass">
+        <h2>🧪 URL Quiz</h2>
+        <p id="question" style="margin-top:20px;"></p>
+        <button class="action-btn" onclick="answer(true)">Safe</button>
+        <button class="action-btn" onclick="answer(false)">Suspicious</button>
+        <h3 id="quizScore" style="margin-top:20px;"></h3>
+    </div>
+</section>
+
+</div>
+</div>
+
+<script>
+function slideTo(index,el){
+    document.getElementById("wrapper").style.transform =
+        "translateX(-" + (index*100) + "vw)";
+
+    document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+    if(el) el.classList.add('active');
+}
+
+/* ANALYZER */
+function analyze(){
+    let url=document.getElementById("urlInput").value.trim();
+    let score=0,reasons=[];
+
+    if(!url) return alert("Enter URL");
+
+    if(url.length>75){score+=2;reasons.push("URL too long");}
+    if(!url.startsWith("https://")){score+=2;reasons.push("No HTTPS");}
+    if(/(\d{1,3}\.){3}\d{1,3}/.test(url)){score+=3;reasons.push("IP address detected");}
+
+    let words=["login","verify","bank","secure","free"];
+    for(let w of words){
+        if(url.toLowerCase().includes(w)){
+            score+=2;
+            reasons.push("Suspicious keyword: "+w);
+            break;
+        }
+    }
+
+    let label,color;
+    if(score<=3){label="SAFE";color="#22c55e";}
+    else if(score<=7){label="SUSPICIOUS";color="#facc15";}
+    else{label="DANGEROUS";color="#ef4444";}
+
+    document.getElementById("result").innerHTML=
+        `<h3 style="color:${color};">${label} (Score ${score})</h3>`;
+
+    document.getElementById("riskFill").style.width=(score/10*100)+"%";
+    document.getElementById("riskFill").style.background=color;
+
+    document.getElementById("reasons").innerHTML=
+        reasons.length?"<ul>"+reasons.map(r=>"<li>"+r+"</li>").join("")+"</ul>":"";
+}
+
+/* QUIZ */
+let quizData=[
+["https://google.com",true],
+["http://verify-bank-login.xyz",false],
+["https://github.com",true],
+["https://bit.ly/freegift",false]
+];
+
+let qi=0,qs=0;
+
+function loadQ(){
+    document.getElementById("question").innerHTML=
+    "Is this safe?<br><b>"+quizData[qi][0]+"</b>";
+}
+
+function answer(ans){
+    if(ans==quizData[qi][1]) qs++;
+    qi++;
+    if(qi<quizData.length) loadQ();
+    else document.getElementById("quizScore").innerHTML=
+        "Final Score: "+qs+"/"+quizData.length;
+}
+
+loadQ();
+</script>
+
+</body>
+</html>

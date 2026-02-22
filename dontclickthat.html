@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DontClickThat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --bg-dark:#0b0f1a;
+    --sidebar:#141a2e;
+    --glass:rgba(255,255,255,0.05);
+    --border:rgba(255,255,255,0.12);
+    --primary:#22d3ee;
+    --danger:#ff4d4d;
+    --warning:#facc15;
+    --safe:#22c55e;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background: radial-gradient(circle at 20% 20%, #1e293b, #0b0f1a 60%);
+    color:white;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    background:var(--sidebar);
+    padding:40px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    border-right:1px solid var(--border);
+}
+
+.logo{
+    font-family:'Orbitron',sans-serif;
+    font-size:22px;
+    text-align:center;
+    margin-bottom:40px;
+    color:var(--primary);
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.nav button{
+    padding:14px;
+    border-radius:14px;
+    border:none;
+    background:var(--glass);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:600;
+}
+
+.nav button:hover{
+    background:var(--primary);
+    color:black;
+    transform:translateX(5px);
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.card{
+    background:var(--glass);
+    backdrop-filter:blur(20px);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:40px;
+    width:100%;
+    max-width:700px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.5);
+    text-align:center;
+}
+
+/* INPUTS */
+
+input{
+    width:100%;
+    padding:15px;
+    margin-top:15px;
+    border-radius:15px;
+    border:none;
+    outline:none;
+    font-size:15px;
+}
+
+input:focus{
+    box-shadow:0 0 0 3px var(--primary);
+}
+
+.action-btn{
+    margin-top:20px;
+    padding:14px;
+    width:100%;
+    border-radius:15px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    background:var(--danger);
+    color:white;
+    transition:0.3s;
+}
+
+.action-btn:hover{
+    background:var(--warning);
+    color:black;
+}
+
+/* RISK BAR */
+
+.risk-bar{
+    margin-top:20px;
+    height:12px;
+    background:rgba(255,255,255,0.1);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#riskFill{
+    height:100%;
+    width:0%;
+    transition:0.5s;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    body{flex-direction:column;}
+    .sidebar{
+        width:100%;
+        flex-direction:row;
+        justify-content:space-around;
+        align-items:center;
+    }
+    .nav{
+        flex-direction:row;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="logo">🚀 DontClickThat</div>
+
+    <div class="nav">
+        <button onclick="show('home')">🏠 Home</button>
+        <button onclick="show('scan')">🔍 Scan URL</button>
+        <button onclick="show('learn')">📚 Learn</button>
+        <button onclick="show('quiz')">🧠 Quiz</button>
+    </div>
+</div>
+
+<div class="main">
+    <div class="card" id="content">
+        <h1>Stay Safe Online</h1>
+        <p style="margin-top:15px;">Detect suspicious and malicious URLs instantly.</p>
+    </div>
+</div>
+
+<script>
+
+/* NAVIGATION */
+
+function show(section){
+    const content=document.getElementById("content");
+
+    if(section==="home"){
+        content.innerHTML=`
+        <h1>Stay Safe Online</h1>
+        <p style="margin-top:15px;">Detect suspicious and malicious URLs instantly.</p>`;
+    }
+
+    if(section==="scan"){
+        content.innerHTML=`
+        <h2>🔍 Scan Suspicious URL</h2>
+        <input id="urlInput" placeholder="Enter suspicious URL">
+        <button class="action-btn" onclick="analyze()">Scan Now</button>
+        <div id="result" style="margin-top:20px;"></div>
+        <div class="risk-bar"><div id="riskFill"></div></div>
+        <div id="reasons" style="margin-top:20px;"></div>`;
+    }
+
+    if(section==="learn"){
+        content.innerHTML=`
+        <h2>📚 How to Identify Malicious Links</h2>
+        <ul style="margin-top:20px; line-height:28px; text-align:left;">
+            <li>Check for HTTPS encryption</li>
+            <li>Beware of suspicious keywords</li>
+            <li>Avoid shortened links</li>
+            <li>Verify domain spelling carefully</li>
+        </ul>`;
+    }
+
+    if(section==="quiz"){
+        content.innerHTML=`
+        <h2>🧠 URL Safety Quiz</h2>
+        <p id="question" style="margin-top:20px;"></p>
+        <button class="action-btn" onclick="answer(true)">Safe</button>
+        <button class="action-btn" onclick="answer(false)">Suspicious</button>
+        <h3 id="quizScore" style="margin-top:20px;"></h3>`;
+        loadQuestion();
+    }
+}
+
+/* URL ANALYZER */
+
+function analyze(){
+    let url=document.getElementById("urlInput").value.trim();
+    let score=0,reasons=[];
+
+    if(!url) return alert("Enter URL");
+
+    if(url.length>75){score+=2;reasons.push("URL too long.");}
+    if(!url.startsWith("https://")){score+=2;reasons.push("No HTTPS encryption.");}
+    if(/(\d{1,3}\.){3}\d{1,3}/.test(url)){score+=3;reasons.push("IP address detected.");}
+
+    let words=["login","verify","bank","secure","free"];
+    for(let w of words){
+        if(url.toLowerCase().includes(w)){
+            score+=2;
+            reasons.push("Suspicious keyword: "+w);
+            break;
+        }
+    }
+
+    let label,color;
+    if(score<=3){label="SAFE";color="var(--safe)";}
+    else if(score<=7){label="SUSPICIOUS";color="var(--warning)";}
+    else{label="DANGEROUS";color="var(--danger)";}
+
+    document.getElementById("result").innerHTML=
+        `<h3 style="color:${color};">${label}</h3>`;
+
+    document.getElementById("riskFill").style.width=(score/10*100)+"%";
+    document.getElementById("riskFill").style.background=color;
+
+    document.getElementById("reasons").innerHTML=
+        reasons.length?"<ul>"+reasons.map(r=>"<li>"+r+"</li>").join("")+"</ul>":"";
+}
+
+/* QUIZ */
+
+let quizData=[
+["https://google.com",true],
+["http://verify-bank-login.xyz",false],
+["https://github.com",true],
+["https://bit.ly/freegift",false]
+];
+
+let qi=0,qs=0;
+
+function loadQuestion(){
+    document.getElementById("question").innerHTML=
+        "Is this safe?<br><b>"+quizData[qi][0]+"</b>";
+}
+
+function answer(ans){
+    if(ans==quizData[qi][1]) qs++;
+    qi++;
+    if(qi<quizData.length) loadQuestion();
+    else document.getElementById("quizScore").innerHTML=
+        "Final Score: "+qs+"/"+quizData.length;
+}
+
+</script>
+
+</body>
+</html>

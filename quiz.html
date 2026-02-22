@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>URL Quiz</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            background: #eef2f7;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            width: 650px;
+            margin: 40px auto;
+            border-radius: 12px;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Dark mode base */
+        body.dark {
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+
+        /* Cards / boxes */
+        body.dark .card,
+        body.dark .box {
+            background: #1e293b;
+            color: #e5e7eb;
+        }
+
+        /* Buttons & links */
+        body.dark a,
+        body.dark button {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Inputs */
+        body.dark input {
+            background: #111827;
+            color: white;
+            border: 1px solid #374151;
+        }
+
+        /* Dark mode toggle button position */
+        .dark-toggle {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 20px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Dark mode styles */
+        body.dark {
+            background: #0f172a;
+            color: #e5e7eb;
+        }
+
+        body.dark .card,
+        body.dark .box {
+            background: #1e293b;
+            color: #e5e7eb;
+        }
+
+        body.dark a,
+        body.dark button {
+            background: #3b82f6;
+            color: white;
+        }
+
+        body.dark input {
+            background: #111827;
+            color: white;
+            border: 1px solid #374151;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="dark-toggle" onclick="toggleDark()">🌙</button>
+
+
+    <div class="box">
+        <h2>🧪 URL Safety Quiz</h2>
+
+        <p id="q"></p>
+
+        <button onclick="ans(true)">Safe</button>
+        <button onclick="ans(false)">Suspicious</button>
+
+        <h3 id="score"></h3>
+
+        <a href="index.html">⬅ Back Home</a>
+    </div>
+
+    <script>
+        let data = [
+            ["https://google.com", true],
+            ["http://verify-bank-login.xyz", false],
+            ["https://github.com", true],
+            ["https://bit.ly/freegift", false],
+            ["http://192.168.1.5/login", false]
+        ];
+
+        let i = 0, s = 0;
+
+        function load() {
+            document.getElementById("q").innerHTML = "Is this safe?<br><b>" + data[i][0] + "</b>";
+        }
+
+        function ans(a) {
+            if (a == data[i][1]) s++;
+            i++;
+            if (i < data.length) load();
+            else document.getElementById("score").innerHTML = "Score: " + s + "/" + data.length;
+        }
+
+        load();
+
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            localStorage.setItem("darkMode",
+                document.body.classList.contains("dark"));
+        }
+
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark");
+        }
+
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            localStorage.setItem(
+                "darkMode",
+                document.body.classList.contains("dark")
+            );
+        }
+
+        if (localStorage.getItem("darkMode") === "true") {
+            document.body.classList.add("dark");
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
